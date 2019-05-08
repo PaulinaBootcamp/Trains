@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron">
+                    <h1 class="text-center">95 South</h1>
+                    <p class="text-center">Choo Choo</p>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Train Name</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">Frequency</th>
+                            <th scope="col">Next Arrival</th>
+                            <th scope="col">Minutes Away</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trainSection">
+
+
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card">
+                    <div class="card-header">
+                        Input Train Details
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Train Name</label>
+                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="Train Name">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Destination</label>
+                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="Destination">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Frequency</label>
+                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="Frequency">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">First Train</label>
+                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="First Train">
+
+                        </div>
+                        <button id="submit" type="button" class="btn btn-primary btn-lg">Add Train to Schedule</button>
+                    </form>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- JAVASCRIPT  -->
+    <!-- ========================================= -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCxWjBEOLXKPrJouhXSEMYyCYSIsR88vWg",
+            authDomain: "trainsbootcamp.firebaseapp.com",
+            databaseURL: "https://trainsbootcamp.firebaseio.com",
+            projectId: "trainsbootcamp",
+            storageBucket: "trainsbootcamp.appspot.com",
+            messagingSenderId: "546307912711"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var database = firebase.database()
+
+            $("#submit").on("click", function (e) {
+                e.preventDefault();
+
+                var tranName = $("#trainName").val().trim();
+                var trainDestination = $("#trainDestination").val().trim();
+                var firstTime = $("#firstTime").val().trim();
+                var frequency = $("#frequency").val().trim();
+
+                database.ref().push({
+                    trainName: trainName,
+                    trainDestination: trainDestination,
+                    firstTime: firstTime,
+                    frequency: frequency,
+                });
+            });
+
+            database.ref().on("child_added", function (snapshot) {
+                var data = snapshot.val();
+                if (!data) {
+
+
+
+                    // calculate next arrival
+                    var nextArrival = "I don;t know yet";
+                    var minutesAway = "###some minutes"
+                    var html = `
+                <tr>
+                            <td>${data.trainName}</td>
+                            <td>${data.trainDestination}</td>
+                            <td>@${data.frequency}</td>
+                            <td>@${data.nextArrival}</td>
+                            <td>@${data.minutesAway}</td>
+                        </tr>
+                `
+                    $("#trainSection").append(html);
+
+                };
+
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
