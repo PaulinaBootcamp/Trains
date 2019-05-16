@@ -1,0 +1,66 @@
+/*@media screen and (max-width: 640px){
+	container{
+		width: 100%;
+	}
+}*/
+
+h1, h3 {
+	font-family: 'Bevan', cursive;
+}
+
+#add-train {
+	background-image: url("../images/pattern.jpg");
+	/* background-color: maroon; */
+	border: none;
+	color: goldenrod;
+	border: 3px solid goldenrod;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 20px;
+	font-family: 'Bevan', cursive;
+	border-radius: 10px;
+}
+
+body {
+	background-image: url('../images/HogwartsExpress.jpg');
+	background-size: 250px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-family: 'Questrial', sans-serif;
+	font-size: 15px;
+}
+
+.panel {
+	/* opacity: .75; */
+	background: rgba(255, 255, 255, 0.85);
+	color: maroon;
+}
+
+.form-control {}
+
+.panel-heading {
+	opacity: 1;
+}
+
+panel {
+	width: 100%;
+}
+
+.jumbotron {
+	background-color: maroon;
+	color: goldenrod;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	/* Find light color of success panel */
+	padding-top: 1%;
+	padding-bottom: 2%;
+	background-image: url("../images/pattern.jpg");
+	background-repeat: repeat;
+	border-radius: 10px;
+}
+
+.panel-heading {
+	padding-top: 0.25%;
+}

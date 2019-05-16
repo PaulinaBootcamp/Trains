@@ -2,157 +2,89 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<title>Train Schedule</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Bevan|Questrial" rel="stylesheet">
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="assets/javascript/app.js" type="text/javascript"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+	<script defer src="./init-firebase.js"></script>
+	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="jumbotron">
-                    <h1 class="text-center">95 South</h1>
-                    <p class="text-center">Choo Choo</p>
+	<div class="container">
+		<div class="jumbotron text-center bg-success text-white">
+			<h1>Hogwarts Express</h1>
+		</div>
 
+		<!-- "Current Train Schedule" Table -->
 
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Train Name</th>
-                            <th scope="col">Destination</th>
-                            <th scope="col">Frequency</th>
-                            <th scope="col">Next Arrival</th>
-                            <th scope="col">Minutes Away</th>
-                        </tr>
-                    </thead>
-                    <tbody id="trainSection">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3>Current Train Schedule</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Train Name</th>
+							<th>Destination</th>
+							<th>Frequency(min)</th>
+							<th>Next Arrival</th>
+							<th>Minutes Away</th>
+						</tr>
+					</thead>
 
+					<!-- Train info goes here! -->
+					<tbody id="add-row">
+					</tbody>
 
-                    </tbody>
-                </table>
+				</table>
+			</div>
+		</div>
 
+		<!-- Form for adding a new train -->
 
-            </div>
-        </div>
+		<div class="panel">
+			<div class="panel-heading">
+				<h3>Add Train</h3>
+			</div>
 
+			<div class="panel-body">
+				<form>
+					<div class="form-group">
+						<label for="text">Origin</label>
+						<input type="text" class="form-control" id="train-name">
+					</div>
 
-        <div class="row">
-            <div class="col-md-12">
+					<div class="form-group">
+						<label for="text">Destination</label>
+						<input type="text" class="form-control" id="destination">
+					</div>
 
-                <div class="card">
-                    <div class="card-header">
-                        Input Train Details
-                    </div>
-                    <form>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Train Name</label>
-                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                placeholder="Train Name">
+					<div class="form-group">
+						<label for="text">First Departure (HH:mm - please enter in 24h format)</label>
+						<input type="text" class="form-control" id="first-train">
+					</div>
 
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Destination</label>
-                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                placeholder="Destination">
+					<div class="form-group">
+						<label for="text">Frequency (in min)</label>
+						<input type="text" class="form-control" id="frequency">
+					</div>
 
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Frequency</label>
-                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                placeholder="Frequency">
-
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">First Train</label>
-                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                placeholder="First Train">
-
-                        </div>
-                        <button id="submit" type="button" class="btn btn-primary btn-lg">Add Train to Schedule</button>
-                    </form>
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-    <!-- JAVASCRIPT  -->
-    <!-- ========================================= -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyCxWjBEOLXKPrJouhXSEMYyCYSIsR88vWg",
-            authDomain: "trainsbootcamp.firebaseapp.com",
-            databaseURL: "https://trainsbootcamp.firebaseio.com",
-            projectId: "trainsbootcamp",
-            storageBucket: "trainsbootcamp.appspot.com",
-            messagingSenderId: "546307912711"
-        };
-        firebase.initializeApp(config);
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            var database = firebase.database()
-
-            $("#submit").on("click", function (e) {
-                e.preventDefault();
-
-                var tranName = $("#trainName").val().trim();
-                var trainDestination = $("#trainDestination").val().trim();
-                var firstTime = $("#firstTime").val().trim();
-                var frequency = $("#frequency").val().trim();
-
-                database.ref().push({
-                    trainName: trainName,
-                    trainDestination: trainDestination,
-                    firstTime: firstTime,
-                    frequency: frequency,
-                });
-            });
-
-            database.ref().on("child_added", function (snapshot) {
-                var data = snapshot.val();
-                if (!data) {
-
-
-
-                    // calculate next arrival
-                    var nextArrival = "I don;t know yet";
-                    var minutesAway = "###some minutes"
-                    var html = `
-                <tr>
-                            <td>${data.trainName}</td>
-                            <td>${data.trainDestination}</td>
-                            <td>@${data.frequency}</td>
-                            <td>@${data.nextArrival}</td>
-                            <td>@${data.minutesAway}</td>
-                        </tr>
-                `
-                    $("#trainSection").append(html);
-
-                };
-
-            });
-        });
-
-    </script>
-
+					<button type="submit" id="add-train">Add to Schedule</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
