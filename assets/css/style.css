@@ -32,17 +32,23 @@ body {
 	font-size: 15px;
 }
 
+#add-row {
+	background: white;
+	border: 3px solid goldenrod;
+}
+
 .panel {
 	/* opacity: .75; */
-	background: rgba(255, 255, 255, 0.85);
+	background: rgba(255, 255, 255, 0.9);
 	color: maroon;
 }
 
 .form-control {}
 
+/* 
 .panel-heading {
 	opacity: 1;
-}
+} */
 
 panel {
 	width: 100%;

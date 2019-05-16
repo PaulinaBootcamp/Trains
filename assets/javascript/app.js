@@ -1,13 +1,17 @@
 $(document).ready(function () {
-    var config = {
-        apiKey: "AIzaSyBPCAxjycmuYaeY8RISjpPzUOSfmZIbQrQ",
-        authDomain: "train-scheduler-68643.firebaseapp.com",
-        databaseURL: "https://train-scheduler-68643.firebaseio.com",
-        projectId: "train-scheduler-68643",
-        storageBucket: "train-scheduler-68643.appspot.com",
-        messagingSenderId: "934455543386"
+    // Initialize Firebase
+    // This is the code we copied and pasted from our app page
+    var firebaseConfig = {
+        apiKey: "AIzaSyCTns2TihkziMI3bkAX04KaqzXz16nGQ3U",
+        authDomain: "trainattemptv2.firebaseapp.com",
+        databaseURL: "https://trainattemptv2.firebaseio.com",
+        projectId: "trainattemptv2",
+        storageBucket: "trainattemptv2.appspot.com",
+        messagingSenderId: "449852194155",
+        appId: "1:449852194155:web:bb79c577ccfd0e14"
     };
-    firebase.initializeApp(config);
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
     // A variable to reference the database.
     var database = firebase.database();
@@ -58,9 +62,11 @@ $(document).ready(function () {
             "</td><td>" + minAway + "</td></tr>");
 
         // Handle the errors
-    }, function (errorObject) {
-        console.log("Errors handled: " + errorObject.code);
-    });
+    },
+        // function (errorObject) {
+        //     console.log("Errors handled: " + errorObject.code);
+        // }
+    );
 
     database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function (snapshot) {
         // Change the HTML to reflect
